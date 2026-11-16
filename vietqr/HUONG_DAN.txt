@@ -1,0 +1,8 @@
+CAI DAT VIETQR - KAIDO
+Giai nen vao thu muc goc web (ghi de neu hoi), dung cau truc:
+  vietqr_config.php          -> goc web (cung cap db.php)  [SUA: so tai khoan, ten chu TK, ma ngan hang]
+  admin/capnhat_trangthai.php
+  donhang/thanhtoan_vietqr.php, vietqr_webhook.php, luu_donhang.php, theodoi.php, donhang.php
+  vietqr.sql                 -> chay 1 lan trong phpMyAdmin (chi can neu dung webhook SePay)
+Con lai: sua trang checkout de truyen payment_method vao taoDonHang() va chuyen huong sang
+donhang/thanhtoan_vietqr.php?id=<ma don> (xem huong dan trong tin nhan).

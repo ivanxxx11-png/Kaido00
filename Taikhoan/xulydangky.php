@@ -1,0 +1,103 @@
+
+<?php
+session_start();
+
+// Chỉ xử lý khi form được gửi bằng POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: dangky.php");
+    exit;
+}
+
+// Kiểm tra CAPTCHA trước khi tạo tài khoản
+$expectedCaptcha = $_SESSION['captcha_answer'] ?? null;
+$submittedCaptcha = $_POST['captcha_answer'] ?? '';
+
+// CAPTCHA chỉ được sử dụng một lần
+unset($_SESSION['captcha_answer']);
+
+$captchaIsValid = (
+    $expectedCaptcha !== null &&
+    is_string($submittedCaptcha) &&
+    ctype_digit($submittedCaptcha) &&
+    (int)$submittedCaptcha === (int)$expectedCaptcha
+);
+
+if (!$captchaIsValid) {
+    header("Location: dangky.php?error=captcha");
+    exit;
+}
+
+require_once "../db.php";
+
+$username = trim($_POST['username'] ?? '');
+$full_name = trim($_POST['full_name'] ?? '');
+$email = trim($_POST['email'] ?? '');
+$password = $_POST['password'] ?? '';
+$confirm_password = $_POST['confirm_password'] ?? '';
+
+
+// Kiểm tra dữ liệu
+if ($username === '' || $full_name === '' || $email === '' || $password === '') {
+    die("Vui lòng nhập đầy đủ thông tin.");
+}
+
+
+// Kiểm tra mật khẩu
+if ($password !== $confirm_password) {
+    die("Mật khẩu nhập lại không khớp.");
+}
+
+
+// Kiểm tra tài khoản đã tồn tại
+$sql_check = "SELECT id FROM users WHERE username = ? OR email = ?";
+
+$stmt = $conn->prepare($sql_check);
+
+$stmt->bind_param("ss", $username, $email);
+
+$stmt->execute();
+
+$result = $stmt->get_result();
+
+
+if ($result->num_rows > 0) {
+    die("Tên đăng nhập hoặc email đã tồn tại.");
+}
+
+
+// Mã hóa mật khẩu
+$password_hash = password_hash($password, PASSWORD_DEFAULT);
+
+
+// Thêm tài khoản
+$sql = "INSERT INTO users
+        (username, email, password, full_name, role)
+        VALUES (?, ?, ?, ?, 'user')";
+
+$stmt = $conn->prepare($sql);
+
+$stmt->bind_param(
+    "ssss",
+    $username,
+    $email,
+    $password_hash,
+    $full_name
+);
+
+
+if ($stmt->execute()) {
+
+    echo "
+    <script>
+        alert('Đăng ký thành công!');
+        window.location.href = 'dangnhap.php';
+    </script>
+    ";
+
+} else {
+    echo "Đăng ký thất bại: " . $conn->error;
+
+}
+
+?>
+

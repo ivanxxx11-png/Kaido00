@@ -1,0 +1,249 @@
+/* ============================================================
+   SLIDE.JS
+   Trước đây file này viết lặp lại y hệt logic cho 3 cái slider
+   (slide, slide2, slide3) - sửa 1 lỗi phải sửa 3 chỗ giống nhau.
+   Giờ gộp lại thành 1 hàm createSlider() dùng chung, mỗi slider
+   chỉ cần gọi hàm này với đúng id + danh sách ảnh của nó.
+   Muốn thêm slider thứ 4 trong tương lai: chỉ cần thêm 1 dòng
+   gọi createSlider() mới ở cuối file, không phải copy cả khối.
+   ============================================================ */
+ 
+
+// ========Khu vực cuộn ẩn trên thanh màu xám =========
+let lastScrollTop = 0;
+const mainHeader = document.getElementById('mainHeader');
+
+window.addEventListener('scroll', function() {
+    if (!mainHeader || document.body.classList.contains('glassy-page')) return;
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > lastScrollTop && scrollTop > 80) {
+        // Đang lướt xuống -> Ẩn thanh màu xám đi
+        mainHeader.style.transform = 'translateY(-100%)';
+    } else {
+        // Đang lướt lên hoặc ở đầu trang -> Hiện thanh màu xám ra
+        mainHeader.style.transform = 'translateY(0)';
+    }
+    
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+}, false);
+
+// 1. Kiểm tra trạng thái lưu trữ khi vừa tải trang , ở đây là tính trạng dark/light mode
+    document.addEventListener("DOMContentLoaded", function() {
+        const savedTheme = localStorage.getItem("kaido_theme");
+        const themeBtn = document.getElementById("themeToggle");
+
+        if (savedTheme === "light") {
+            document.body.classList.add("light-mode");
+            if (themeBtn) themeBtn.innerHTML = "☀️ Light";
+        } else {
+            document.body.classList.remove("light-mode");
+            if (themeBtn) themeBtn.innerHTML = "🌙 Dark";
+        }
+    });
+
+    // 2. Hàm kích hoạt khi bấm nút chuyển đổi
+    function toggleTheme() {
+        const body = document.body;
+        const themeBtn = document.getElementById("themeToggle");
+
+        body.classList.toggle("light-mode");
+
+        if (body.classList.contains("light-mode")) {
+            localStorage.setItem("kaido_theme", "light");
+            if (themeBtn) themeBtn.innerHTML = "☀️ Light";
+        } else {
+            localStorage.setItem("kaido_theme", "dark");
+            if (themeBtn) themeBtn.innerHTML = "🌙 Dark";
+        }
+    }
+
+
+function createSlider(imgId, imageList) {
+    const slideEl = document.getElementById(imgId);
+    if (!slideEl) return null; // Trang không có slider này thì bỏ qua, không lỗi
+ 
+    let index = 0;
+ 
+    function showImage() {
+        slideEl.style.opacity = 0;
+        setTimeout(function () {
+            slideEl.src = imageList[index];
+            slideEl.style.opacity = 1;
+        }, 300);
+    }
+ 
+    function nextImage() {
+        index++;
+        if (index >= imageList.length) {
+            index = 0;
+        }
+        showImage();
+    }
+ 
+    function prevImage() {
+        index--;
+        if (index < 0) {
+            index = imageList.length - 1;
+        }
+        showImage();
+    }
+ 
+    /* Thông báo nhỏ khi ảnh không tải được (thường do mất mạng) */
+    function showSlideError() {
+        let notice = slideEl.parentElement.querySelector(".slide-offline-notice");
+        if (!notice) {
+            notice = document.createElement("p");
+            notice.className = "slide-offline-notice";
+            notice.textContent = "Không có mạng - ảnh chưa tải được";
+            slideEl.parentElement.appendChild(notice);
+        }
+        notice.style.display = "block";
+    }
+    function hideSlideError() {
+        const notice = slideEl.parentElement.querySelector(".slide-offline-notice");
+        if (notice) notice.style.display = "none";
+    }
+    slideEl.addEventListener("error", showSlideError);
+    slideEl.addEventListener("load", hideSlideError);
+ 
+    /* Tự động chuyển ảnh mỗi 3 giây */
+    setInterval(nextImage, 3000);
+ 
+    // Trả về các hàm điều khiển để gán vào nút bấm bên ngoài (onclick trong HTML)
+    return { next: nextImage, prev: prevImage, reload: showImage };
+}
+ 
+/* ==================== KHỞI TẠO TỪNG SLIDER ==================== */
+ 
+const slider1 = createSlider("slide", [
+    "image/khungxe.jpg",
+    "image/khungxe2.jpg",
+    "image/khungxe3.jpg",
+    "image/khungxe4.jpg",
+    "image/khungxe5.jpg",
+    "image/khungxe6.jpg",
+    "image/khungxe7.jpg",
+    "image/khungxe8.jpg",
+    "image/khungxe9.jpg",
+    "image/matxe10.jpg",
+    "image/matxe11.jpg"
+]);
+ 
+const slider2 = createSlider("slide2", [
+    "image/hino5001.jpg",
+    "image/hino5002.jpg",
+    "image/hino5003.jpg",
+    "image/hino5004.jpg",
+    "image/hino5005.jpg"
+]);
+ 
+const slider3 = createSlider("slide3", [
+    "image/DauxeV5Moi.jpg",
+    "image/DauxeV5Moi2.jpg",
+    "image/DauxeV5Moi3.jpg",
+    "image/DauxeV5Moi4.jpg"
+]);
+ 
+/* Các nút bấm trong HTML đang gọi tên hàm nextImage()/prevImage(),
+   nextImage2()/prevImage2(), nextImage3()/prevImage3() - giữ nguyên
+   tên này để không phải sửa lại HTML, chỉ nối chúng sang slider tương ứng. */
+function nextImage() { if (slider1) slider1.next(); }
+function prevImage() { if (slider1) slider1.prev(); }
+function nextImage2() { if (slider2) slider2.next(); }
+function prevImage2() { if (slider2) slider2.prev(); }
+function nextImage3() { if (slider3) slider3.next(); }
+function prevImage3() { if (slider3) slider3.prev(); }
+ 
+/* Có mạng trở lại: thử tải lại ảnh hiện tại của cả 3 slider nếu trước đó bị lỗi do mất mạng */
+window.addEventListener("online", function () {
+    if (slider1) slider1.reload();
+    if (slider2) slider2.reload();
+    if (slider3) slider3.reload();
+});
+ 
+/* ==================== ÂM THANH KHI BẤM CHUYỂN TRANG ==================== */
+function clickSound() {
+    const sound = new Audio("sound/ClickNext.mp3");
+    sound.play();
+}
+
+/* ==================== SLIDE TRÌNH CHIẾU TRÊN shop.php ==================== */
+/* ==================== TỰ ĐỘNG CHAYHJ TRWN SLIDE ==================== */
+let kaidoSlideIndex = 0;
+let kaidoAutoSlide;
+
+function kaidoShowSlide(index) {
+
+    const slides = document.querySelectorAll(".kaido-slide");
+    const dots = document.querySelectorAll(".kaido-dot");
+
+    if (slides.length === 0) return;
+
+    if (index >= slides.length) {
+        kaidoSlideIndex = 0;
+    }
+
+    if (index < 0) {
+        kaidoSlideIndex = slides.length - 1;
+    }
+
+    slides.forEach(slide => {
+        slide.classList.remove("active");
+    });
+
+    dots.forEach(dot => {
+        dot.classList.remove("active");
+    });
+
+    slides[kaidoSlideIndex].classList.add("active");
+
+    if (dots[kaidoSlideIndex]) {
+        dots[kaidoSlideIndex].classList.add("active");
+    }
+}
+
+function kaidoChangeSlide(direction) {
+
+    kaidoSlideIndex += direction;
+
+    kaidoShowSlide(kaidoSlideIndex);
+
+    kaidoResetAutoSlide();
+}
+
+function kaidoCurrentSlide(index) {
+
+    kaidoSlideIndex = index;
+
+    kaidoShowSlide(kaidoSlideIndex);
+
+    kaidoResetAutoSlide();
+}
+
+function kaidoStartAutoSlide() {
+
+    kaidoAutoSlide = setInterval(() => {
+
+        kaidoSlideIndex++;
+
+        kaidoShowSlide(kaidoSlideIndex);
+
+    }, 5000);
+}
+
+function kaidoResetAutoSlide() {
+
+    clearInterval(kaidoAutoSlide);
+
+    kaidoStartAutoSlide();
+}
+
+/* Khởi động */
+document.addEventListener("DOMContentLoaded", () => {
+
+    kaidoShowSlide(kaidoSlideIndex);
+
+    kaidoStartAutoSlide();
+
+});
