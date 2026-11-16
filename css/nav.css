@@ -1,0 +1,310 @@
+/* ============================================================
+   NAV.CSS - Header & menu điều hướng dùng chung
+   File này được style.css và shop.css @import vào.
+   Sửa menu (màu, kích thước, responsive...) chỉ cần sửa Ở ĐÂY,
+   không cần sửa lặp lại ở từng file CSS riêng của từng trang.
+
+   Mục lục:
+     1. HEADER (khung nền, vị trí)
+     2. LOGO
+     3. CÁC NÚT MENU (nut0 -> nut6, và bản "...chon" khi đang chọn)
+     4. RESPONSIVE (header tự xuống dòng khi màn hình hẹp)
+   ============================================================ */
+
+
+/* ==================== 1. HEADER ==================== */
+.header {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to right, rgb(111, 111, 111), rgb(167, 167, 167));
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out; /* Hiệu ứng trượt mượt mà */
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header h2 {
+    color: black;
+    font-size: 18px;
+    margin: 0;
+}
+
+/* ==================== 2. LOGO ==================== */
+.logo {
+    width: 80px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+/* ==================== THANH ĐIỀU HƯỚNG MỚI ==================== */
+.nav-container {
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center; /* Đưa toàn bộ khung chứa nút ra giữa màn hình (trên PC) */
+}
+
+.nav-scroll-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Căn các nút ở giữa trên PC */
+    gap: 5px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 5px 10px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+}
+
+/* Tùy chỉnh thanh cuộn ngang cho gọn gàng */
+.nav-scroll-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+.nav-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+/* Các nút điều hướng */
+.nut0, .nut0chon, .nut1, .nut1chon, .nut2, .nut2chon, .nut3, .nut4, .nut4chon, .nut5,  .nut5chon, .nut6, .nut6chon {
+    display: inline-flex;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.nut0 a, .nut0chon a, .nut1 a, .nut1chon a, .nut2 a, .nut2chon a, .nut3 a, .nut4 a, .nut4chon a, .nut5 a, .nut5chon a, .nut6 a, .nut6chon a {
+    color: white;
+    text-decoration: none;
+    font-size: 10px;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    padding: 10px 18px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Trạng thái trang hiện tại (màu xám) và trạng thái hover */
+.nut0chon a, .nut1chon a, .nut2chon a, .nut4chon a, .nut5chon a, .nut6chon a {
+    background: linear-gradient(to right, #000000, #555555) !important;
+}
+
+.nut0:hover a, .nut1:hover a, .nut2:hover a, .nut3:hover a, .nut4:hover a, .nut5:hover a, .nut6:hover a {
+    background: linear-gradient(to right, #000000, #808080);
+    transform: translateY(-2px);
+}
+
+
+/* ==================== 3. CÁC NÚT MENU ====================
+   Quy ước đặt tên: .nutN la trạng thái bình thường,
+   .nutNchon là trạng thái "đang ở trang này" (màu đảo ngược).
+   ============================================================ */
+
+/* --- Nút "Trang chủ" (nut0) - có margin-left:auto để đẩy sang phải --- */
+.nut0 {
+    margin-left: auto;
+    display: flex;
+    transition: all 0.3s ease;
+}
+.nut0 a {
+    color: white;
+    text-decoration: none;
+    font-size: 10px;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+.nut0:hover a {
+    background: linear-gradient(to right, #000000, #808080);
+    transform: translateY(-2px);
+}
+
+.nut0chon {
+    margin-left: auto;
+    display: flex;
+    transition: all 0.3s ease;
+}
+.nut0chon a {
+    color: white;
+    text-decoration: none;
+    font-size: 10px;
+    background: linear-gradient(to right, #000000, #808080);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+.nut0chon:hover a {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    transform: translateY(-2px);
+}
+
+/* --- Nút "Dự án khác" (nut1) --- */
+.nut1 {
+    display: flex;
+    transition: all 0.3s ease;
+}
+.nut1 a {
+    color: white;
+    text-decoration: none;
+    font-size: 10px;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+.nut1:hover a {
+    background: linear-gradient(to right, #000000, #808080);
+    transform: translateY(-2px);
+}
+
+.nut1chon {
+    display: flex;
+    transition: all 0.3s ease;
+}
+.nut1chon a {
+    color: white;
+    text-decoration: none;
+    font-size: 10px;
+    background: linear-gradient(to right, #000000, #808080);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+.nut1chon:hover a {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    transform: translateY(-2px);
+}
+
+/* --- Nút "Trò chuyện / Tính năng / Chi tiết kỹ thuật / Tin tức / Game mini"
+   (nut2, nut3, nut4, nut5, nut6) - dùng chung 1 kiểu màu mặc định --- */
+.nut2, .nut3, .nut4, .nut5, .nut6 {
+    display: flex;
+    transition: all 0.3s ease;
+}
+.nut2 a, .nut3 a, .nut4 a, .nut5 a, .nut6 a {
+    color: white;
+    text-decoration: none;
+    font-size: 10px;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+.nut2:hover a, .nut3:hover a, .nut4:hover a, .nut5:hover a, .nut6:hover a {
+    background: linear-gradient(to right, #000000, #808080);
+    transform: translateY(-2px);
+}
+
+/* --- nut2 khi đang là trang hiện tại --- */
+.nut2chon {
+    display: flex;
+    transition: all 0.3s ease;
+}
+.nut2chon a {
+    color: white;
+    text-decoration: none;
+    font-size: 10px;
+    background: linear-gradient(to right, #000000, #808080);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+.nut2chon:hover a {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    transform: translateY(-2px);
+}
+
+/* --- nut4 khi đang là trang hiện tại --- */
+.nut4chon {
+    display: flex;
+    transition: all 0.3s ease;
+}
+.nut4chon a {
+    color: white;
+    text-decoration: none;
+    font-size: 10px;
+    background: linear-gradient(to right, #000000, #808080);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+.nut4chon:hover a {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    transform: translateY(-2px);
+}
+
+
+/* ==================== 4. RESPONSIVE ====================
+   Header dùng flex "position:fixed" + nhiều nút -> trên màn hình
+   hẹp PHẢI cho xuống dòng (flex-wrap), nếu không nút sẽ bị bóp
+   nhỏ dúm hoặc tràn ra ngoài màn hình.
+   Breakpoint 900px: dùng cho trang có NHIỀU nút (shop.html có 7 nút)
+   để chúng xuống dòng sớm hơn trang có ít nút (4-5 nút ở style.css).
+   ========================================================= */
+@media (max-width: 900px) {
+    .header {
+        position: relative; /* Bỏ "fixed" để không đè lên nội dung khi xuống nhiều dòng */
+        top: auto;
+        left: auto;
+        right: auto;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .header h2 {
+        width: 100%;
+        text-align: center;
+        font-size: 16px;
+        margin: 4px 0;
+    }
+
+    .logo {
+        width: 70px;
+        height: 45px;
+    }
+
+    .nut0, .nut0chon, .nut1, .nut1chon,
+    .nut2, .nut2chon, .nut3, .nut4, .nut4chon, .nut5, .nut5chon .nut6, .nut6chon {
+        margin-left: 0;
+    }
+
+    .nut0 a, .nut0chon a, .nut1 a, .nut1chon a,
+    .nut2 a, .nut2chon a, .nut3 a, .nut4 a, .nut4chon a, .nut5 a, .nut5chon a, .nut6 a, .nut6chon a {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h2 {
+        font-size: 13px;
+    }
+
+    .nut0 a, .nut0chon a, .nut1 a, .nut1chon a,
+    .nut2 a, .nut2chon a, .nut3 a, .nut4 a, .nut4chon a, .nut5 a, .nut5chon a, .nut6 a, .nut6chon a {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .nav-container {
+        justify-content: flex-start; /* Mobile vẫn giữ lướt từ trái qua */
+    }
+    .nav-scroll-wrapper {
+        justify-content: flex-start;
+    }
+}

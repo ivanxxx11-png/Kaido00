@@ -1,0 +1,93 @@
+/* ============================================================
+   GAMECSS.CSS - dùng riêng cho gamemini.html
+   Mục lục:
+     1. FONT
+     2. BASE / RESET
+     3. TIÊU ĐỀ (.tittle)
+     4. NÚT QUAY LẠI (.back)
+     5. LOADING SCREEN
+   ============================================================ */
+ 
+ 
+/* ==================== 1. FONT ==================== */
+@import url('fonts.css');
+ 
+ 
+/* ==================== 2. BASE / RESET ==================== */
+body {
+    background: #111827;
+    font-family: 'HarmonyOS Sans', sans-serif;
+}
+ 
+ 
+/* ==================== 3. TIÊU ĐỀ (.tittle) ==================== */
+.tittle {
+    text-align: center;
+    color: silver;
+    font-size: 40px;
+    font-weight: bold;
+    font-family: 'system-ui';
+    margin-top: 20px;
+    border-radius: 10px;
+    text-shadow:
+        -2px -2px 0 black,
+         2px -2px 0 black,
+        -2px  2px 0 black,
+         2px  2px 0 black;
+}
+ 
+ 
+/* ==================== 4. NÚT QUAY LẠI (.back) ==================== */
+.back {
+    text-align: center;
+    margin-top: 20px;
+    animation: moDan 1s infinite;
+}
+.back a {
+    font-family: 'HarmonyOS Sans';
+    font-size: 25px;
+    color: white;
+    text-decoration: none;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+@keyframes moDan {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+ 
+ 
+/* ==================== 5. LOADING SCREEN ==================== */
+#loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.8s ease;
+}
+#loading img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    animation: logoLoading 1.0s ease-in-out infinite;
+}
+#loading p {
+    color: white;
+    font-size: 20px;
+    margin-top: 15px;
+}
+@keyframes logoLoading {
+    0%   { transform: scale(1.0); opacity: 0.7; }
+    50%  { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1.0); opacity: 0.7; }
+}

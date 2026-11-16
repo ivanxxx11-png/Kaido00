@@ -1,0 +1,174 @@
+<?php
+session_start(); // Bắt đầu session để quản lý đăng nhập
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tin tức</title>
+    <link rel="icon" href="../image/kaidoLogomini.png">
+    <link rel="stylesheet" href="../css/details.css"> <!-- Sử dụng details.css để tránh trùng lặp code với các trang khác -->
+<link rel="stylesheet" href="../css/glassy.css">
+<script src="../js/glassy-theme.js"></script>
+</head>
+<body class="glassy-page">
+<?php $glassyBase = '../'; require __DIR__ . '/../layout/glassy-sidebar.php'; ?>
+<div id="glassy-content" class="glassy-content" tabindex="-1">
+
+
+    <!-- TRANG LOADING -->
+    <div id="loading">
+        <img src="../image/imgload.png">
+        <p>Đang tải, gần xong rồi!!<span id="dots">...</span></p>
+    </div>
+
+    <!-- THANH MÀU XÁM (Đầu trang - Smart Header: Tự ẩn khi lướt xuống, hiện khi lướt lên) -->
+    <div class="header" id="mainHeader">
+        <div class="header-left">
+            <img class="logo" src="../image/kaidologo.jpg">
+            <h2>Tin tức</h2>
+        </div>
+        <div class="header-right">
+            <!-- NÚT BẤM CHUYỂN ĐỔI DARK / LIGHT MODE -->
+
+
+            <!-- HIỂN THỊ TÊN TÀI KHOẢN HOẶC ĐĂNG NHẬP -->
+            <?php if (isset($_SESSION['username'])): ?>
+                <div class="user-header-badge">
+                    <span>👋 Hi, <strong><?= htmlspecialchars($_SESSION['username']) ?></strong></span>
+                </div>
+            <?php else: ?>
+                <div class="user-header-badge visitor">
+                    <a href="../Taikhoan/dangnhap.php">🔑 Đăng nhập/ đăng ký</a>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <!-- THANH ĐIỀU HƯỚNG MỚI (Nằm dưới thanh màu xám, không ghim, lướt ngang trên mobile) -->
+    <div id="dautrang"> 
+    <div class="nav-container">
+        <div class="nav-scroll-wrapper">
+            <div class="nut0">
+                <a href="../index.php" onclick="clickSound()">Trang chủ</a>
+            </div>
+            <div class="nut1">
+                <a href="../khac/khac.php">Dự án khác</a>
+            </div>
+            <div class="nut2">
+                <a href="../hoithem.php">Trò chuyện</a>
+            </div>
+            <div class="nut4">
+                <a href="../tienich.php" onclick="clickSound()">Tài khoản/Mua hàng</a>
+            </div>
+            <div class="nut5">
+                <a href="../kythuat/details.php">Chi tiết kỹ thuật</a>
+            </div>
+            <div class="nut6chon">
+                <a>Tin tức</a>
+            </div>
+            <div class="nut3">
+                <a href="../gamemini.php" onclick="clickSound()">Game mini</a>
+            </div>
+        </div>
+    </div>
+
+
+<h1>Tin tức mới nhất</h1>
+    <div class="blog-container">
+        <div class="blog-header">
+            <p>Cập nhật thông tin về các dự án và sản phẩm của Kaido và những tin tức khác!!</p>
+        </div>
+
+        <div class="blog-posts">
+            <div class="blog-post">
+                <h2>Dí lái được cải tiến ở bản xe v5</h2>
+                <p>Ngày đăng: 16/09/2026</p>
+                <p>Dí lái được cải tiến thêm nhờ vật liệu ép nhựa chất lượng cao chịu được tải trọng thích hợp với servo kéo dí lái khoảng ~30kg</p>
+            </div>
+
+            <div class="blog-post">
+                <h2>Hoạt động của Kaido hiện tại đã bị trì hoãn cho việc ra mắt sản phẩm mới</h2>
+                <p>Ngày đăng: 08/09/2026</p>
+                <p>Chủ trì quản lý thương hiệu hiện tại chưa có kinh phí và công tác thực hiện hoàn thành chương trình cấp 2 tại trường trung học cơ sỡ khiến cho việc ra mắt thêm các dự án mới đã bị trì hoãn lên tới tháng 12.<br>
+                Chúng tôi sẽ cập nhật thông tin sớm nhất có thể.</p>
+            </div>
+
+            <div class="blog-post">
+                <h2>Triệt phá cơ sở “tân trang” pin lithium đã qua sử dụng tại TP. Hà Nội</h2>
+                <p>Ngày đăng: 13/08/2026</p>
+                <p>Lực lượng chức năng vừa triệt phá một cơ sở chuyên “tân trang” pin lithium đã qua sử dụng, hoạt động chủ yếu vào ban đêm giữa khu dân cư tại xã Thường Tín, TP. Hà Nội.<br>
+                Pin lithium cũ tiềm ẩn nguy cơ cháy nổ, có thể sinh nhiệt rất cao và giải phóng khí độc khi xảy ra sự cố. Vậy người tiêu dùng làm thế nào để nhận biết pin lithium đã qua sử dụng?</p>
+                <a href="https://www.youtube.com/watch?v=AmXUofnQtsQ">Xem trên Youtube chính thức của VTV24</a>
+            </div>
+
+            <div class="blog-post">
+                <h2>Cẩn thận khi mua sạc i.phone giá chỉ vài chục nghìn đồng trên Tik Tok.</h2>
+                <p>Ngày đăng: 04/08/2026</p>
+                <p>Những bộ sạc iPhone được bán với mức giá chỉ vài chục nghìn đồng trên TikTok có thể tiềm ẩn nhiều rủi ro về chất lượng và an toàn. Một số sản phẩm giá rẻ có thể sử dụng linh kiện không đạt chuẩn, khả năng cách điện và kiểm soát nhiệt kém, từ đó gây nóng bất thường, sạc không ổn định hoặc làm ảnh hưởng đến thiết bị<br>
+                Người dùng nên kiểm tra kỹ nguồn gốc, thông số kỹ thuật và uy tín của người bán trước khi mua. Đừng chỉ lựa chọn bộ sạc dựa trên mức giá rẻ, đặc biệt với các thiết bị sử dụng trực tiếp nguồn điện.</p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+<div id="info">
+    <div class="thongtinweb">
+    <h4 class="text">Bạn đang ở cuối trang.</h4>
+<div class="footer">
+    <div>
+    <h3 class="text">Social Media</h3>
+    <p>--Mạng xã hội Tik Tok--</p>
+    <div class="tiktok"><a href="https://www.tiktok.com/@elfaria425">Tik tok: @elfaria425 | Chính chủ chế tạo ngoại hình, thiết kế xe chính</a></div><br>
+    <div class="tiktok2"><a href=https://www.tiktok.com/@meihirou>Tik tok: @meihirou | Phụ trợ, kỹ sư, thiết kế trang web</a></div><br>
+    <div class="tiktok3"><a href="https://www.tiktok.com/@hoai.anh2017.3">Tik tok: @hoai.anh2017.3 | Phụ trợ, thiết kế trang web</a><br><p>Ủng hộ chúng mình bằng cách nhấn Follow <3 </p></div>
+    <p>--Liên hệ bằng email--</p>
+    <p>akahiru5@gmail.com</p>
+    <p>--Kênh Youtube--</p>
+    <div class="youtube">
+    <a href="https://www.youtube.com/@Nguy%E1%BB%85nqu%E1%BB%91cc%C6%B0%E1%BB%9Dng-w9j4l">Kênh Youtube: Cường Nguyễn</a></div><br>
+    <div class="youtube2">
+    <a href="https://www.youtube.com/@tienlam2159">Kênh Youtube: Lâm Tiến</a>
+    </div>
+    <p>Ủng hộ chúng mình bằng cách nhấn Subcribe <3 </p>
+</div>
+    <div>
+        <h3 class="text">Thông tin trang web</h3>
+        <p>Xây dựng thương hiệu tại: Thành phố Gia Lai </p>
+        <p>Được thiết kế bởi: quốc cường rc</p>
+        <p>Bản quyền © 2025 Kaido. All rights reserved.</p>
+    </div>
+    <h1 id="gio"></h1>
+    <script>
+function capNhatGio() {
+    let now = new Date();
+    let gio = now.toLocaleTimeString();
+    document.getElementById("gio").innerHTML = gio;
+}
+setInterval(capNhatGio, 1000);
+</script>
+    <p class="date">Cập nhật trang web lần cuối: 29/09/2026</p>
+</div>
+
+<div class="quaylai">
+    <a href="#dautrang">Đầu trang</a>
+</div>
+
+<!--Đặt Cho loading-->
+<script>
+window.addEventListener("load", function() {
+    const loading = document.getElementById("loading");
+    loading.style.opacity = "0";
+    setTimeout(function() {
+        loading.style.display = "none";
+    }, 500);
+});
+</script>
+</div><!-- glassy-content -->
+</body>
+<script src="../js/slide.js"></script>
+</html>
